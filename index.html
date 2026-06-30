@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cocoon — Property Owner Services</title>
+<meta name="description" content="Cocoon manages your space end-to-end — turning underutilized properties into passive income with zero hassle and full control." />
+<style>
+  :root {
+    --cream:           #F5F2E8;
+    --cream-deep:      #ECE7D6;
+    --cream-warm:      #EFE9D7;
+    --terracotta:      #F54029;
+    --terracotta-deep: #C8331E;
+    --teal:            #275453;
+    --ink:             #1A1A1A;
+    --ink-soft:        #4A4A4A;
+    --ink-mute:        #6B6B6B;
+    --rule:            rgba(26,26,26,0.12);
+    --rule-soft:       rgba(26,26,26,0.06);
+    --max:             1280px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: var(--terracotta); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── TYPE ── */
+  .superhead {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 11px;
+    color: var(--terracotta);
+  }
+  .title {
+    font-weight: 700;
+    font-size: clamp(40px, 7vw, 96px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+  .headline {
+    font-weight: 700;
+    font-size: clamp(24px, 3vw, 42px);
+    line-height: 1.15;
+    letter-spacing: -0.018em;
+    margin: 0 0 0.5em;
+  }
+  .lede {
+    font-size: clamp(18px, 1.5vw, 22px);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0 0 1em;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: clamp(64px, 10vh, 130px) clamp(24px, 5vw, 80px);
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  section + section { border-top: 1px solid var(--rule); }
+  .full { max-width: none !important; padding-left: 0; padding-right: 0; }
+  .full > .inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 clamp(24px, 5vw, 80px);
+  }
+  .bg-deep {
+    max-width: none;
+    background: var(--cream-deep);
+    padding-left: clamp(24px, 5vw, 80px);
+    padding-right: clamp(24px, 5vw, 80px);
+  }
+  .bg-deep > .inner { max-width: var(--max); margin: 0 auto; }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,242,232,0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .topbar-inner {
+    max-width: var(--max); margin: 0 auto;
+    padding: 14px clamp(24px, 5vw, 80px);
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .topbar-brand { display: flex; align-items: center; gap: 16px; }
+  .topbar-brand .cocoon { display: flex; align-items: center; gap: 10px; }
+  .topbar-brand .divider { width: 1px; height: 20px; background: var(--rule); }
+  .topbar-brand .label {
+    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.13em; color: var(--ink);
+  }
+  .topbar-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px;
+    background: var(--terracotta); color: #FFF;
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em;
+    border-radius: 100px; white-space: nowrap;
+    transition: background 200ms;
+  }
+  .topbar-cta:hover { background: var(--ink); text-decoration: none; }
+  @media (max-width: 560px) { .topbar-cta { display: none; } }
+
+  .logomark { width: 26px; height: 26px; }
+  .wordmark { height: 15px; width: auto; }
+
+  /* ── COVER ── */
+  .cover { padding: 0; max-width: none; overflow: hidden; }
+  .cover-grid { display: grid; grid-template-columns: 1fr 1.15fr; min-height: 680px; }
+  .cover-left {
+    background: var(--terracotta);
+    padding: clamp(48px, 6vw, 88px);
+    display: flex; flex-direction: column; justify-content: space-between; gap: 40px;
+  }
+  .cover-title { color: #FFF; font-size: clamp(44px, 6.5vw, 86px); }
+  .cover-tagline {
+    font-size: clamp(17px, 1.6vw, 21px); font-weight: 400;
+    color: rgba(255,255,255,0.88); line-height: 1.5; max-width: 440px;
+  }
+  .cover-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.15);
+    padding: 10px 18px; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.9);
+    align-self: flex-start;
+  }
+  .cover-badge span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.9); }
+  .cover-right { position: relative; overflow: hidden; background: var(--ink); }
+  .cover-right img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 860px) {
+    .cover-grid { grid-template-columns: 1fr; min-height: auto; }
+    .cover-right { height: 52vw; min-height: 280px; }
+  }
+
+  /* ── TWO-COL ── */
+  .two-col { display: grid; gap: clamp(40px, 6vw, 96px); align-items: start; }
+  .two-col.text-image { grid-template-columns: 1fr 1.3fr; }
+  .two-col.image-text { grid-template-columns: 1.3fr 1fr; }
+  .two-col.half { grid-template-columns: 1fr 1fr; gap: clamp(32px, 4vw, 64px); }
+  @media (max-width: 860px) {
+    .two-col.text-image,
+    .two-col.image-text,
+    .two-col.half { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ── PHOTO ── */
+  .photo { background: var(--cream-deep); overflow: hidden; }
+  .photo img { width: 100%; object-fit: cover; display: block; }
+  .photo.ratio-3-2 img { aspect-ratio: 3/2; }
+  .photo.ratio-4-5 img { aspect-ratio: 4/5; }
+  .photo.ratio-2-3 img { aspect-ratio: 2/3; }
+  .photo.fill { height: 100%; }
+  .photo.fill img { height: 100%; aspect-ratio: auto; }
+
+  .bleed {
+    width: 100vw; margin-left: calc(50% - 50vw);
+    overflow: hidden;
+  }
+  .bleed img { width: 100%; aspect-ratio: 21/9; max-height: 68vh; object-fit: cover; display: block; }
+  @media (max-width: 860px) { .bleed img { aspect-ratio: 4/3; max-height: 60vh; } }
+
+  .photo-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  @media (max-width: 700px) { .photo-grid-3 { grid-template-columns: 1fr; } }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--terracotta); color: #FFF;
+    padding: clamp(56px, 8vw, 108px) clamp(24px, 5vw, 80px);
+    max-width: none;
+  }
+  .callout > .inner { max-width: var(--max); margin: 0 auto; }
+  .callout .headline { color: #FFF; }
+  .callout .superhead { color: rgba(255,255,255,0.75); }
+  .callout .lede { color: rgba(255,255,255,0.9); }
+
+  /* ── SHIELD STATS (3 trust numbers) ── */
+  .trust-row {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 0; border-top: 1px solid rgba(255,255,255,0.2);
+    margin-top: 56px; padding-top: 48px;
+  }
+  .trust-item { padding-right: 40px; border-right: 1px solid rgba(255,255,255,0.2); }
+  .trust-item:last-child { border-right: none; padding-right: 0; padding-left: 40px; }
+  .trust-item:nth-child(2) { padding: 0 40px; }
+  .trust-num { font-size: clamp(36px, 4vw, 54px); font-weight: 700; color: #FFF; letter-spacing: -0.025em; line-height: 1; }
+  .trust-label { font-size: 13px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 8px; line-height: 1.45; font-weight: 600; }
+  @media (max-width: 700px) {
+    .trust-row { grid-template-columns: 1fr; gap: 28px; padding-top: 32px; }
+    .trust-item { border-right: none; padding: 0 0 24px !important; border-bottom: 1px solid rgba(255,255,255,0.2); }
+    .trust-item:last-child { border-bottom: none; padding-bottom: 0 !important; }
+  }
+
+  /* ── "WE GET IT" QUESTION BOX ── */
+  .question-box {
+    background: var(--cream-deep); border-left: 4px solid var(--terracotta);
+    padding: 32px 36px; margin-top: 36px;
+  }
+  .question-box p {
+    font-size: clamp(18px, 1.8vw, 22px); font-weight: 700;
+    color: var(--terracotta); line-height: 1.35; margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── EVENT TYPE TILES ── */
+  .event-types {
+    display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
+    margin-top: 56px;
+  }
+  .et-tile {
+    background: var(--cream-deep);
+    padding: 28px 24px 24px;
+    border-top: 3px solid var(--terracotta);
+  }
+  .et-tile .et-icon { font-size: 26px; margin-bottom: 12px; }
+  .et-tile .et-name {
+    font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.005em; margin-bottom: 6px;
+  }
+  .et-tile .et-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  @media (max-width: 700px) { .event-types { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .event-types { grid-template-columns: 1fr; } }
+
+  /* ── SERVICE LIST ── */
+  .service-list { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--rule); }
+  .service-list li {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 15px 0; border-bottom: 1px solid var(--rule);
+    font-size: 16px; color: var(--ink-soft); line-height: 1.45;
+  }
+  .service-list li::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--terracotta); flex: 0 0 auto; margin-top: 8px;
+  }
+
+  /* ── FEATURE CARDS (Why Cocoon) ── */
+  .feature-cards {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 16px; margin-top: 56px;
+  }
+  .fc {
+    background: #FFF; border: 1px solid var(--rule);
+    padding: 32px 28px;
+  }
+  .fc .fc-num {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.18em; color: var(--terracotta); margin-bottom: 16px;
+  }
+  .fc h4 { font-size: 17px; font-weight: 700; margin: 0 0 10px; letter-spacing: -0.01em; }
+  .fc p { font-size: 15px; color: var(--ink-soft); line-height: 1.6; margin: 0; }
+  @media (max-width: 860px) { .feature-cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px) { .feature-cards { grid-template-columns: 1fr; } }
+
+  /* ── WHY COLS (What we do best / Different) ── */
+  .why-col h3 {
+    font-size: 18px; font-weight: 700; margin: 0 0 28px;
+    padding-bottom: 18px; border-bottom: 2px solid var(--terracotta);
+    letter-spacing: -0.01em;
+  }
+  .why-item { padding: 20px 0; border-bottom: 1px solid var(--rule); }
+  .why-item:last-child { border-bottom: none; }
+  .why-item h4 { font-size: 15px; font-weight: 700; margin: 0 0 7px; }
+  .why-item p { font-size: 14px; color: var(--ink-soft); line-height: 1.6; margin: 0; }
+
+  /* ── TIMELINE ── */
+  .timeline-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; margin-top: 48px; }
+  .timeline {
+    display: grid; grid-template-columns: repeat(9, minmax(116px,1fr));
+    min-width: 840px; position: relative;
+  }
+  .timeline::before {
+    content: ""; position: absolute;
+    top: 50px; left: 0; right: 0; height: 1px;
+    background: var(--rule); z-index: 0;
+  }
+  .tl-step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 6px; }
+  .tl-label {
+    background: var(--cream-deep); padding: 11px 12px;
+    font-size: 12px; font-weight: 700; line-height: 1.3;
+    text-align: center; min-height: 50px; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tl-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--cream); border: 2px solid var(--rule);
+    margin: 16px 0; flex-shrink: 0;
+  }
+  .tl-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.45; text-align: center; }
+
+  /* owner steps */
+  .tl-step.owner .tl-label { background: var(--terracotta); color: #FFF; }
+  .tl-step.owner .tl-dot { background: var(--terracotta); border-color: var(--terracotta); width: 14px; height: 14px; }
+  .tl-step.owner::before {
+    content: ""; position: absolute;
+    top: -20px; left: 50%; transform: translateX(-50%);
+    width: 8px; height: 8px; border-radius: 50%; background: var(--terracotta);
+  }
+
+  /* ── FAQ ── */
+  .faq-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border-top: 1px solid var(--rule); margin-top: 48px;
+  }
+  .faq-item {
+    padding: 30px 48px 30px 0; border-bottom: 1px solid var(--rule);
+  }
+  .faq-item:nth-child(even) { padding: 30px 0 30px 48px; border-left: 1px solid var(--rule); }
+  .faq-item h4 { font-size: 16px; font-weight: 700; margin: 0 0 10px; letter-spacing: -0.005em; }
+  .faq-item p { font-size: 15px; color: var(--ink-soft); line-height: 1.65; margin: 0; }
+  @media (max-width: 700px) {
+    .faq-grid { grid-template-columns: 1fr; }
+    .faq-item, .faq-item:nth-child(even) { padding: 26px 0; border-left: none; }
+  }
+
+  /* ── CLOSING ── */
+  .closing-grid { display: grid; grid-template-columns: 1fr 1.1fr; min-height: 560px; }
+  .closing-left {
+    background: var(--terracotta);
+    padding: clamp(56px, 7vw, 96px);
+    display: flex; flex-direction: column; justify-content: space-between; gap: 40px;
+  }
+  .closing-left .title { color: #FFF; }
+  .closing-sub { font-size: clamp(17px,1.7vw,22px); font-weight: 400; color: rgba(255,255,255,0.88); line-height: 1.5; }
+  .closing-contact { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.8; }
+  .closing-contact strong { color: #FFF; font-weight: 600; display: block; }
+  .closing-right { position: relative; overflow: hidden; background: var(--ink); }
+  .closing-right img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 860px) {
+    .closing-grid { grid-template-columns: 1fr; min-height: auto; }
+    .closing-right { height: 52vw; min-height: 280px; }
+  }
+
+  /* ── CTA PILL ── */
+  .pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 28px; border-radius: 100px;
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.13em;
+    text-decoration: none; transition: background 200ms, color 200ms;
+    white-space: nowrap;
+  }
+  .pill.white { background: #FFF; color: var(--terracotta); }
+  .pill.white:hover { background: var(--ink); color: #FFF; text-decoration: none; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 56px clamp(24px, 5vw, 80px);
+    border-top: 1px solid var(--rule); background: var(--cream);
+  }
+  footer .inner {
+    max-width: var(--max); margin: 0 auto;
+    display: flex; flex-wrap: wrap; gap: 32px;
+    justify-content: space-between; align-items: flex-end;
+  }
+  footer .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  footer .meta { font-size: 12px; color: var(--ink-mute); line-height: 1.75; }
+
+  /* ── LIGHTBOX ── */
+  .lb-img { cursor: zoom-in; }
+  #lightbox {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(15,15,15,0.95);
+    align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: 100%; max-height: 90vh;
+    object-fit: contain;
+    display: block;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  }
+  #lightbox-close {
+    position: fixed; top: 24px; right: 30px;
+    color: rgba(255,255,255,0.8); font-size: 36px; font-weight: 300;
+    cursor: pointer; line-height: 1; user-select: none;
+    transition: color 150ms;
+    z-index: 1001;
+  }
+  #lightbox-close:hover { color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">
+      <span class="cocoon">
+        <img src="img/cocoon/mark-128.png" alt="Cocoon" class="logomark" />
+        <img src="img/cocoon/wordmark-320.png" alt="cocoon" class="wordmark" />
+      </span>
+      <span class="divider"></span>
+      <span class="label">Property Owner Services</span>
+    </div>
+    <a href="mailto:hello@cocoonflexspaces.com" class="topbar-cta">Get in touch →</a>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════ -->
+<section class="cover full">
+  <div class="cover-grid">
+    <div class="cover-left">
+      <div>
+        <div class="superhead" style="color:rgba(255,255,255,0.7);">Cocoon Flex Spaces</div>
+        <h1 class="title cover-title" style="margin-top:18px;">
+          Property<br/>Owner<br/>Services.
+        </h1>
+        <p class="cover-tagline" style="margin-top:28px;">Your space, earning money. On your terms — without the work.</p>
+      </div>
+      <div>
+        <a href="#get-started" class="pill white" style="margin-bottom:24px;">Start a conversation →</a>
+        <div class="cover-badge" style="margin-top: 16px;">
+          <span></span> No upfront costs. No commitment.
+        </div>
+      </div>
+    </div>
+    <div class="cover-right">
+      <img src="img/spaces/cover-hero.jpg" alt="A beautifully curated Cocoon venue" />
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     WE GET IT
+═══════════════════════════════════════════ -->
+<section id="we-get-it">
+  <div class="two-col image-text" style="align-items:center;">
+    <div class="photo ratio-4-5">
+      <img src="img/spaces/we-get-it.jpg" alt="A light-filled residential space" />
+    </div>
+    <div>
+      <div class="superhead">We understand</div>
+      <h2 class="headline" style="margin-top:16px; font-size: clamp(32px, 3.8vw, 52px);">We get it.</h2>
+      <p style="color:var(--ink-soft); margin-top:18px; font-size: 17px; line-height:1.65; max-width:480px;">
+        You have a beautiful space that sits empty more than it should. Monetizing it sounds appealing — until you picture strangers in your home, damage you can't control, and a landlord role you never signed up for.
+      </p>
+      <p style="color:var(--ink-soft); font-size:17px; line-height:1.65; max-width:480px;">
+        The privacy, the upkeep, the logistics, the liability — it's a lot to take on.
+      </p>
+      <div class="question-box">
+        <p>So — how do you generate passive income from your space without any of the risk or hassle?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     THAT'S WHERE WE COME IN (CALLOUT)
+═══════════════════════════════════════════ -->
+<section class="callout full" id="where-we-come-in">
+  <div class="inner">
+    <div class="superhead" style="color:rgba(255,255,255,0.7);">The answer</div>
+    <h2 class="title" style="color:#FFF; font-size:clamp(36px,5.5vw,72px); margin-top:18px; max-width:860px; line-height:1.05;">
+      That's where<br/>we come in.
+    </h2>
+    <p style="color:rgba(255,255,255,0.9); font-size:clamp(17px,1.7vw,21px); max-width:620px; line-height:1.65; margin-top:28px; font-weight:400;">
+      Cocoon provides a dedicated team that manages your space from first inquiry to final payment — property maintenance, lead generation, bookings management, full insurance, on-site supervision, and more.
+    </p>
+    <p style="color:rgba(255,255,255,0.75); font-size:16px; margin-top:12px; font-weight:500;">
+      All you do is approve or decline. We handle everything else.
+    </p>
+    <div class="trust-row">
+      <div class="trust-item">
+        <div class="trust-num">&lt;&nbsp;1%</div>
+        <div class="trust-label">Incident rate<br/>across all bookings</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">$2M</div>
+        <div class="trust-label">Liability COI required<br/>from every client</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">100%</div>
+        <div class="trust-label">Privacy — we handle<br/>all client contact for you</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="bleed full" style="margin:0;">
+  <img src="img/spaces/where-we-come-in.jpg" alt="A stunning Cocoon venue interior" />
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     WHO WE ARE + SERVICES
+═══════════════════════════════════════════ -->
+<section id="who-we-are">
+  <div class="two-col text-image" style="align-items:start;">
+    <div>
+      <div class="superhead">Who we are</div>
+      <h2 class="headline" style="margin-top:16px;">End-to-end management for NYC property owners.</h2>
+      <p style="color:var(--ink-soft); font-size:17px; line-height:1.7; max-width:500px; margin-top:4px;">
+        We connect your space with productions, brand activations, private events, showrooms, and intimate dinners — then we run the entire operation so you never have to.
+      </p>
+
+      <p style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--ink); margin-top:40px 0 0;">What we handle</p>
+      <ul class="service-list">
+        <li>Property management and routine maintenance</li>
+        <li>Professional photography and listing creation</li>
+        <li>Design consulting to optimize your space for bookings</li>
+        <li>Marketing campaigns and lead generation</li>
+        <li>Full pre- and post-booking cleaning</li>
+        <li>On-site supervision for every booking</li>
+      </ul>
+
+      <!-- Event types -->
+      <p style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--ink); margin: 44px 0 0;">Types of bookings we host</p>
+      <div class="event-types">
+        <div class="et-tile">
+          <div class="et-name">Brand Activations</div>
+          <div class="et-desc">Press events, product launches, influencer shoots.</div>
+        </div>
+        <div class="et-tile">
+          <div class="et-name">Chef Dinners</div>
+          <div class="et-desc">Intimate private dining experiences, 10–30 guests.</div>
+        </div>
+        <div class="et-tile">
+          <div class="et-name">Showrooms</div>
+          <div class="et-desc">Fashion, design, and art brand presentations.</div>
+        </div>
+        <div class="et-tile">
+          <div class="et-name">Private Events</div>
+          <div class="et-desc">Engagement parties, small receptions, milestone dinners.</div>
+        </div>
+      </div>
+    </div>
+    <div class="photo fill ratio-4-5" style="align-self:stretch;">
+      <img src="img/spaces/who-we-are.jpg" alt="A curated Cocoon space" />
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     WHY COCOON
+═══════════════════════════════════════════ -->
+<section class="bg-deep" id="why-cocoon">
+<div class="inner">
+  <div class="superhead">Why Cocoon</div>
+  <h2 class="headline" style="margin-top:16px; max-width:700px;">Designed to maximize your income while protecting what matters most to you.</h2>
+
+  <!-- Feature cards — What we do best -->
+  <p style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--ink-soft); margin: 48px 0 0;">What we do best</p>
+  <div class="feature-cards">
+    <div class="fc">
+      <div class="fc-num">01</div>
+      <h4>Full Service Management</h4>
+      <p>We handle every step — from initial inquiry to post-booking cleanup. You review, approve, and collect your payment.</p>
+    </div>
+    <div class="fc">
+      <div class="fc-num">02</div>
+      <h4>Always On-Site</h4>
+      <p>An experienced Cocoon manager is on-site for every single booking — site visits and full events alike. Your space is never unattended.</p>
+    </div>
+    <div class="fc">
+      <div class="fc-num">03</div>
+      <h4>Insurance on Every Booking</h4>
+      <p>We require a $2M general liability COI from every client, plus umbrella insurance. Less than 1% of bookings have ever had an incident.</p>
+    </div>
+    <div class="fc">
+      <div class="fc-num">04</div>
+      <h4>We Handle the Board</h4>
+      <p>For co-ops and condos: we navigate building boards, neighbors, and regulations on your behalf — so you don't have to.</p>
+    </div>
+    <div class="fc">
+      <div class="fc-num">05</div>
+      <h4>Live Performance Dashboard</h4>
+      <p>Every partner gets a personalized dashboard with real-time booking data and performance metrics, reviewed weekly by our team.</p>
+    </div>
+    <div class="fc">
+      <div class="fc-num">06</div>
+      <h4>Strategic Profit Optimization</h4>
+      <p>We diversify across event types to combat seasonality — keeping your income consistent year-round, not just during peak months.</p>
+    </div>
+  </div>
+
+  <!-- What makes us different — two col -->
+  <p style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--ink-soft); margin: 60px 0 0;">What makes us different</p>
+  <div class="two-col half" style="margin-top:28px; align-items:start;">
+    <div class="why-col">
+      <h3>Zero upfront cost</h3>
+      <div class="why-item">
+        <h4>No fees to get started</h4>
+        <p>We cover photography, listing creation, marketing, and lead generation ourselves. We only earn when you do.</p>
+      </div>
+      <div class="why-item">
+        <h4>100% privacy, always</h4>
+        <p>Clients never contact you directly. We shield your identity at every step, so you remain anonymous to renters.</p>
+      </div>
+      <div class="why-item">
+        <h4>You keep living there</h4>
+        <p>We only accept daytime activity bookings — no overnight stays — so you always have full access to your home.</p>
+      </div>
+    </div>
+    <div class="why-col">
+      <h3>Full control, always</h3>
+      <div class="why-item">
+        <h4>You approve every booking</h4>
+        <p>Every inquiry comes to you first. You decide who enters your home, what they do, and when. The last word is always yours.</p>
+      </div>
+      <div class="why-item">
+        <h4>Block dates whenever you want</h4>
+        <p>Going away? Have family in town? Just tell us and we block those dates. We work around your schedule, not ours.</p>
+      </div>
+      <div class="why-item">
+        <h4>Bi-weekly payments</h4>
+        <p>Payments are sent every two weeks, after each booking closes. No chasing invoices, no delayed transfers.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     HOW WE WORK
+═══════════════════════════════════════════ -->
+<section id="how-we-work">
+  <div class="superhead">The process</div>
+  <h2 class="headline" style="margin-top:16px; max-width:660px;">A typical booking, from first inquiry to your check.</h2>
+  <p style="color:var(--ink-soft); font-size:16px; max-width:580px; margin: 4px 0 0; line-height:1.65;">
+    You're involved at exactly three moments. Cocoon takes care of everything else.
+  </p>
+
+  <!-- Legend -->
+  <div style="display:flex; gap:28px; margin-top:24px; flex-wrap:wrap;">
+    <div style="display:flex; align-items:center; gap:10px; font-size:13px; color:var(--ink-soft);">
+      <span style="width:11px;height:11px;border-radius:50%;background:var(--cream-deep);border:2px solid var(--rule);display:inline-block;"></span>
+      Cocoon handles
+    </div>
+    <div style="display:flex; align-items:center; gap:10px; font-size:13px; font-weight:700; color:var(--terracotta);">
+      <span style="width:11px;height:11px;border-radius:50%;background:var(--terracotta);display:inline-block;"></span>
+      Your 3 touchpoints
+    </div>
+  </div>
+
+  <div class="timeline-scroll">
+    <div class="timeline" style="padding-top:28px;">
+
+      <div class="tl-step">
+        <div class="tl-label">Booking<br/>inquiry</div>
+        <div class="tl-dot"></div>
+        <div class="tl-desc">We receive an inquiry for your space.</div>
+      </div>
+
+      <div class="tl-step owner">
+        <div class="tl-label">Confirm<br/>availability</div>
+        <div class="tl-dot"></div>
+        <div class="tl-desc">We check in with you on dates.</div>
+      </div>
+
+      <div class="tl-step">
+        <div class="tl-label">Close<br/>booking</div>
+        <div class="tl-dot"></div>
+        <div class="tl-desc">Client signs the contract.</div>
+      </div>
+
+      <div class="tl-step owner">
+        <div class="tl-label">Confirm<br/>details</div>
+        <div class="tl-dot"></div>
+        <div class="tl-desc">Final confirmation with you.</div>
+      </div>
+
+      <div class="tl-step">
+        <div class="tl-label">Planning &amp;<br/>prep</div>
+        <div class="tl-dot"></div>
+        <div class="tl-desc">We coordinate everything with the client.</div>
+      </div>
+
+      <div class="tl-step">
+        <div class="tl-label">Clean &amp;<br/>set up</div>
+        <div class="tl-dot"></div>
+        <div class="tl-desc">Space prepped before the booking.</div>
+      </div>
+
+      <div class="tl-step">
+        <div class="tl-label">Day of<br/>booking</div>
+        <div class="tl-dot"></div>
+        <div class="tl-desc">Our manager is on-site the whole time.</div>
+      </div>
+
+      <div class="tl-step">
+        <div class="tl-label">Reset &amp;<br/>clean</div>
+        <div class="tl-dot"></div>
+        <div class="tl-desc">Space returned exactly as we found it.</div>
+      </div>
+
+      <div class="tl-step owner">
+        <div class="tl-label">You get<br/>paid!</div>
+        <div class="tl-dot"></div>
+        <div class="tl-desc">Check sent bi-weekly after close.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Event photos -->
+  <div class="photo-grid-3" style="margin-top:56px;">
+    <div class="photo ratio-3-2"><img src="img/spaces/event-01.jpg" alt="Guests at a Cocoon event" /></div>
+    <div class="photo ratio-3-2"><img src="img/spaces/event-02.jpg" alt="A Cocoon booking in progress" /></div>
+    <div class="photo ratio-3-2"><img src="img/spaces/event-03.jpg" alt="A Cocoon space in action" /></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     FAQ
+═══════════════════════════════════════════ -->
+<section class="bg-deep" id="faq">
+<div class="inner">
+  <div class="superhead">Questions &amp; answers</div>
+  <h2 class="headline" style="margin-top:16px;">Frequently asked questions</h2>
+
+  <div class="faq-grid">
+
+    <div class="faq-item">
+      <h4>How much does it cost to partner with Cocoon?</h4>
+      <p>Nothing. There are zero fees or costs to onboard your space. We only make money when you do — our commission comes out of the booking revenue, so you're never out of pocket.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>What if my space is unavailable on certain dates?</h4>
+      <p>Easy — just tell us the dates you want blocked. We always work around your schedule. You can block a single day or an entire month whenever you need to.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>I don't want parties or loud events. What exactly do you book?</h4>
+      <p>You choose. We present each inquiry to you before accepting anything. Most Cocoon bookings are quiet, high-profile, low-footprint: brand activations, chef dinners, intimate wedding receptions, editorial shoots, and private gatherings of 10–40 people.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>How do I get paid?</h4>
+      <p>Payments are sent bi-weekly, after each booking is completed and closed. No chasing, no delays — it lands in your account automatically.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>Do I need to be present or involved during bookings?</h4>
+      <p>Never, unless you want to be. Our team handles all communication, coordination, and on-site management. All you need to do is approve or decline incoming inquiries.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>What happens if something gets damaged?</h4>
+      <p>We require a $2M general liability COI and umbrella insurance from every client. One of our team members is on-site for the entire booking. Less than 1% of our bookings have ever had an incident — and every one was covered by the client's insurance.</p>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- FAQ bleed image -->
+<div class="bleed full" style="margin:0;">
+  <img src="img/spaces/faq-hero.jpg" alt="A curated Cocoon space" />
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     CLOSING / CTA
+═══════════════════════════════════════════ -->
+<section class="full" id="get-started" style="padding:0; border-top:none;">
+  <div class="closing-grid">
+    <div class="closing-left">
+      <div>
+        <div class="superhead" style="color:rgba(255,255,255,0.65);">Let's talk</div>
+        <h2 class="title" style="color:#FFF; margin-top:18px; font-size:clamp(50px,6.5vw,84px);">
+          Thank<br/>you.
+        </h2>
+        <p class="closing-sub" style="margin-top:24px; max-width:400px;">
+          We look forward to learning more about your space and showing you what it could become.
+        </p>
+      </div>
+      <div>
+        <a href="mailto:hello@cocoonflexspaces.com" class="pill white">Get in touch →</a>
+        <div class="closing-contact" style="margin-top:28px;">
+          <strong>Eduard Monteagudo</strong>
+          Cocoon Flex Spaces<br/>
+          <a href="mailto:hello@cocoonflexspaces.com" style="color:rgba(255,255,255,0.72);">hello@cocoonflexspaces.com</a><br/>
+          <a href="https://cocoonflexspaces.com" style="color:rgba(255,255,255,0.72);">cocoonflexspaces.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="closing-right">
+      <img src="img/spaces/closing-hero.jpg" alt="A Cocoon property" />
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="inner">
+    <div>
+      <div class="brand">
+        <img src="img/cocoon/mark-128.png" alt="Cocoon" style="width:22px;height:22px;" />
+        <img src="img/cocoon/wordmark-320.png" alt="cocoon" style="height:13px;width:auto;" />
+      </div>
+      <div class="meta">
+        Cocoon Flex Spaces · New York City<br/>
+        <a href="https://cocoonflexspaces.com" style="color:var(--ink-mute);">cocoonflexspaces.com</a>
+      </div>
+    </div>
+    <div class="meta" style="text-align:right;">
+      Property Owner Services<br/>
+      Prepared by Eduard Monteagudo<br/>
+      <a href="mailto:hello@cocoonflexspaces.com" style="color:var(--ink-mute);">hello@cocoonflexspaces.com</a>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-modal="true">
+  <span id="lightbox-close" aria-label="Close">&times;</span>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<script>
+(function () {
+  const lb     = document.getElementById('lightbox');
+  const lbImg  = document.getElementById('lightbox-img');
+  const lbClose = document.getElementById('lightbox-close');
+
+  // All images except those inside .cover-right and .closing-right
+  const allImgs = document.querySelectorAll('img');
+  allImgs.forEach(img => {
+    const skip = img.closest('.cover-right') || img.closest('.topbar') || img.closest('footer');
+    if (skip) return;
+    img.classList.add('lb-img');
+    img.addEventListener('click', () => {
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLb() {
+    lb.classList.remove('open');
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  lbClose.addEventListener('click', closeLb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+})();
+</script>
+
+</body>
+</html>
