@@ -218,19 +218,27 @@
 
   /* ── EVENT TYPE TILES ── */
   .event-types {
-    display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
-    margin-top: 56px;
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 0;
+    margin-top: 40px;
+    border-top: 1px solid var(--rule);
   }
   .et-tile {
-    background: var(--cream-deep);
-    padding: 28px 24px 24px;
-    border-top: 3px solid var(--terracotta);
+    padding: 32px 36px;
+    border-bottom: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
   }
-  .et-tile .et-icon { font-size: 26px; margin-bottom: 12px; }
+  .et-tile:nth-child(3n+1) { padding-left: 0; }
+  .et-tile:nth-child(3n) { border-right: none; padding-right: 0; }
+  .et-tile .et-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--terracotta);
+    margin-bottom: 14px;
+  }
   .et-tile .et-name {
-    font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.005em; margin-bottom: 6px;
+    font-size: 16px; font-weight: 700; color: var(--ink);
+    letter-spacing: -0.01em; margin-bottom: 8px; line-height: 1.2;
   }
-  .et-tile .et-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .et-tile .et-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
   @media (max-width: 700px) { .event-types { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 480px) { .event-types { grid-template-columns: 1fr; } }
 
@@ -525,20 +533,34 @@
       <p style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:var(--ink); margin: 44px 0 0;">Types of bookings we host</p>
       <div class="event-types">
         <div class="et-tile">
+          <div class="et-num">01</div>
+          <div class="et-name">Media Productions</div>
+          <div class="et-desc">Photo shoots, film and video productions, commercial content. One of our highest-volume categories — reliably low-impact, high-revenue bookings.</div>
+        </div>
+        <div class="et-tile">
+          <div class="et-num">02</div>
           <div class="et-name">Brand Activations</div>
-          <div class="et-desc">Press events, product launches, influencer shoots.</div>
+          <div class="et-desc">Press events, product launches, and influencer shoots for consumer and luxury brands.</div>
         </div>
         <div class="et-tile">
+          <div class="et-num">03</div>
+          <div class="et-name">Team & Corporate</div>
+          <div class="et-desc">Off-sites, team-building sessions, leadership dinners, and company retreats for established organizations.</div>
+        </div>
+        <div class="et-tile">
+          <div class="et-num">04</div>
           <div class="et-name">Chef Dinners</div>
-          <div class="et-desc">Intimate private dining experiences, 10–30 guests.</div>
+          <div class="et-desc">Intimate private dining experiences with professional chefs, typically 10–30 guests.</div>
         </div>
         <div class="et-tile">
+          <div class="et-num">05</div>
           <div class="et-name">Showrooms</div>
-          <div class="et-desc">Fashion, design, and art brand presentations.</div>
+          <div class="et-desc">Curated fashion, design, and art brand presentations for trade and press audiences.</div>
         </div>
         <div class="et-tile">
+          <div class="et-num">06</div>
           <div class="et-name">Private Events</div>
-          <div class="et-desc">Engagement parties, small receptions, milestone dinners.</div>
+          <div class="et-desc">Milestone dinners and small receptions — all subject to strict qualification. We actively decline bookings with party risk. Every private event is controlled and vetted.</div>
         </div>
       </div>
     </div>
